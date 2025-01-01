@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="add-product-container">
+        <h2>Add Product</h2>
+        <form id="add-product-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+            <label for="category">Category:</label>
+            <select id="category" required>
+                <option value="acne_cure">Acne Cure</option>
+                <option value="pore_cleansing">Pore Cleansing Masks</option>
+                <option value="collagen_boost">Collagen Boost Products</option>
+            </select>
+            <label for="description">Description:</label>
+            <textarea id="description" required></textarea>
+            <label for="price">Price:</label>
+            <input type="number" id="price" required>
+            <label for="image_url">Image URL:</label>
+            <input type="url" id="image_url" required>
+            <label for="food_tips">Food Tips:</label>
+            <textarea id="food_tips" required></textarea>
+            <button type="submit">Add Product</button>
+        </form>
+        <p id="success-message" class="success"></p>
+        <p id="error-message" class="error"></p>
+    </div>
+    <script>
+        document.getElementById('add-product-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const category = document.getElementById('category').value;
+            const description = document.getElementById('description').value;
+            const price = document.getElementById('price').value;
+            const image_url = document.getElementById('image_url').value;
+            const food_tips = document.getElementById('food_tips').value;
+            const response = await fetch('/api/admin/add_product', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, category, description, price, image_url, food_tips })
+            });
+            const data = await response.json();
+            if (data.success) {
+                document.getElementById('success-message').innerText = 'Product added successfully!';
+            } else {
+                document.getElementById('error-message').innerText = 'Failed to add product.';
+            }
+        });
+    </script>
+</body>
+</html>
