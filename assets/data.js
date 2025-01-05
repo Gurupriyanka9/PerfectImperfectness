@@ -17,7 +17,7 @@ const productsData = [
    { id: 11, name: "Hyaloronic Acid Serum", category: "hydration", price: "Rs.850", image: "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1686942155-81pYR5vNvjL.jpg?crop=1xw:1.00xh;center,top&resize=980:*" },
    { id: 12, name: "Vitamin C Face Wash", category: "hydration", price: "Rs.470", image: "https://cosmedplanet.com/wp-content/uploads/2022/04/Screenshot_20220421-183851.jpg" },
    { id: 13, name: "Acne Scar Remover Combo", category: "hydration", price: "Rs.1480", image: "https://post.healthline.com/wp-content/uploads/2022/09/2518143-2497075-Market-Clinical-CLONE-The-15-Best-Products-to-Get-Rid-of-Acne-Scars-According-to-Dermatologists-1200x628-Facebook-1200x628.jpg" },
-   { id: 14, name: "Hyalauronic Toner", category: "hydration", price: "Rs.950", image: "https://m.media-amazon.com/images/I/4198g8VGL5L.jpg" },
+   { id: 14, name: "Hyalauronic Toner", category: "hydration", price: "Rs.950", image: "https://s3.images-iherb.com/isk/isk73834/v/7.jpg" },
    { id: 15, name: "Rose water", category: "hydration", price: "Rs.550", image: "https://action.com/hostedassets/CMSArticleImages/18/33/3011943_8719238032838-111_01.png" },
    //Collagem Boost
    { id: 16, name: "Collagen Sheet Mask", category: "collagen", price: "Rs.650", image: "https://tse3.mm.bing.net/th?id=OIP.NMrhVmldA7i2ZAcYks8WFAHaHa&pid=Api&P=0&h=180" },
