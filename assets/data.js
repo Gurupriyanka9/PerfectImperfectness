@@ -1,4 +1,4 @@
-const productsData = [
+export const productsData = [
     // Acne Care Products
     { id: 1, name: "Acne Solution Gel", category: "acne", price: "Rs.450", image: "https://images.qvc.com/is/image/a/84/a414684.001" },
     { id: 2, name: "Anti-Blemish Serum", category: "acne", price: "Rs.550", image: "https://tse3.mm.bing.net/th?id=OIP.EK-b-vH9sJynMwM4VYls5wHaKN&pid=Api&P=0&h=180" },
