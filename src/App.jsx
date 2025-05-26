@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import { productsData } from './assets/data';
+import { productsData } from '../assets/data.js';
 import './css/styles.css';
 
 function App() {
