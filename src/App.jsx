@@ -9,7 +9,6 @@ function App() {
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
-  const [showHome, setShowHome] = useState(true);
 
   const handleSearch = (e) => {
     const searchTerm = e.target.value.toLowerCase();
@@ -17,13 +16,11 @@ function App() {
       product.name.toLowerCase().includes(searchTerm)
     );
     setFilteredProducts(filtered);
-    setShowHome(false);
   };
 
   const handleCategory = (category) => {
     const filtered = products.filter(product => product.category === category);
     setFilteredProducts(filtered);
-    setShowHome(false);
   };
 
   const addToCart = (product) => {
@@ -52,11 +49,7 @@ function App() {
     <div>
       <Toaster position="top-right" />
       <header>
-        <img 
-          src="https://images.pexels.com/photos/6621441/pexels-photo-6621441.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
-          alt="Perfect Imperfectness Logo" 
-          style={{ width: '100px', height: '100px', borderRadius: '50%', marginBottom: '20px' }} 
-        />
+        <img src="log.png" alt="Perfect Imperfectness Logo" style={{ width: '200px', height: 'auto', marginBottom: '20px' }} />
         <h1>Perfect Imperfectness</h1>
         <h3>Embrace Your Glow: Perfectly Imperfect, Authentically You</h3>
         <input type="text" onChange={handleSearch} placeholder="Search for products..." />
@@ -136,33 +129,10 @@ function App() {
           </div>
         </section>
 
-        {showHome && (
-          <section className="hero-section">
-            <div className="hero-content">
-              <h1>Welcome to Perfect Imperfectness</h1>
-              <p>Discover our curated collection of skincare products designed to enhance your natural beauty.</p>
-              <div className="featured-categories">
-                <div className="featured-category">
-                  <img src="https://images.pexels.com/photos/6621462/pexels-photo-6621462.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Acne Care" />
-                  <h3>Acne Care</h3>
-                </div>
-                <div className="featured-category">
-                  <img src="https://images.pexels.com/photos/6621429/pexels-photo-6621429.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Pore Care" />
-                  <h3>Pore Care</h3>
-                </div>
-                <div className="featured-category">
-                  <img src="https://images.pexels.com/photos/6621446/pexels-photo-6621446.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Hydration" />
-                  <h3>Hydration</h3>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
         <section id="products">
-          {!showHome && <h2>Products</h2>}
+          <h2>Products</h2>
           <div className="product-list">
-            {!showHome && filteredProducts.map(product => (
+            {filteredProducts.map(product => (
               <div key={product.id} className="product-card">
                 <img src={product.image} alt={product.name} />
                 <h3>{product.name}</h3>
