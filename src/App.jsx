@@ -10,6 +10,7 @@ function App() {
   const [showCart, setShowCart] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [showProducts, setShowProducts] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSearch = (e) => {
     const searchTerm = e.target.value.toLowerCase();
@@ -27,13 +28,32 @@ function App() {
   };
 
   const addToCart = (product) => {
-    setCart([...cart, product]);
+    const existingItem = cart.find(item => item.id === product.id);
+    if (existingItem) {
+      setCart(cart.map(item =>
+        item.id === product.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      ));
+    } else {
+      setCart([...cart, { ...product, quantity: 1 }]);
+    }
     toast.success('Added to cart!', {
       style: {
         background: '#7a4fa0',
         color: 'white',
       },
     });
+  };
+
+  const updateQuantity = (productId, change) => {
+    setCart(cart.map(item => {
+      if (item.id === productId) {
+        const newQuantity = item.quantity + change;
+        return newQuantity > 0 ? { ...item, quantity: newQuantity } : null;
+      }
+      return item;
+    }).filter(Boolean));
   };
 
   const removeFromCart = (productId) => {
@@ -48,32 +68,44 @@ function App() {
 
   const handlePayment = (e) => {
     e.preventDefault();
-    toast.success('Payment successful! Thank you for shopping with us.', {
-      duration: 5000,
-      style: {
-        background: '#7a4fa0',
-        color: 'white',
-      },
-    });
-    setCart([]);
+    setShowSuccess(true);
     setShowPayment(false);
+    setCart([]);
+  };
+
+  const getTopRatedProducts = (category) => {
+    return products.filter(product => product.category === category).slice(0, 3);
   };
 
   const totalAmount = cart.reduce((sum, item) => {
     const price = parseInt(item.price.replace('Rs.', ''));
-    return sum + price;
+    return sum + (price * item.quantity);
   }, 0);
+
+  if (showSuccess) {
+    return (
+      <div className="success-page">
+        <div className="success-content">
+          <div className="success-icon">✓</div>
+          <h1>Order Placed Successfully!</h1>
+          <p>Thank you for shopping with SkinCare Haven</p>
+          <p>Your order will be delivered within 5-7 business days</p>
+          <button onClick={() => {
+            setShowSuccess(false);
+            setShowProducts(true);
+          }}>Continue Shopping</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
       <Toaster position="top-right" />
       <nav className="navbar">
-        <div className="nav-brand">Perfect Imperfectness</div>
-        <div className="nav-links">
-          <a href="#home" onClick={() => setShowProducts(false)}>Home</a>
-          <a href="#products" onClick={() => setShowProducts(true)}>Products</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
+        <div className="nav-brand">
+          <img src="https://images.pexels.com/photos/3785147/pexels-photo-3785147.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Logo" className="nav-logo" />
+          SkinCare Haven
         </div>
         <div className="nav-search">
           <input 
@@ -85,7 +117,7 @@ function App() {
             className="cart-button"
             onClick={() => setShowCart(true)}
           >
-            🛒 ({cart.length})
+            🛒 {cart.reduce((sum, item) => sum + item.quantity, 0)}
           </button>
         </div>
       </nav>
@@ -93,14 +125,40 @@ function App() {
       {!showProducts ? (
         <div className="home-content">
           <section className="hero-section">
-            <h1>Embrace Your Natural Beauty</h1>
-            <p>Discover skincare solutions tailored to your unique beauty journey</p>
+            <h1>Your Path to Radiant Skin</h1>
+            <p>Discover premium skincare solutions for your unique beauty</p>
             <button onClick={() => setShowProducts(true)}>Shop Now</button>
+          </section>
+
+          <section className="featured-section">
+            <h2>Top Rated Products</h2>
+            <div className="category-recommendations">
+              {['acne', 'hydration', 'collagen', 'sensitive'].map(category => (
+                <div key={category} className="category-section">
+                  <h3>{category.charAt(0).toUpperCase() + category.slice(1)} Care</h3>
+                  <div className="recommended-products">
+                    {getTopRatedProducts(category).map(product => (
+                      <div key={product.id} className="product-card">
+                        <img src={product.image} alt={product.name} />
+                        <h3>{product.name}</h3>
+                        <p>{product.price}</p>
+                        <button 
+                          onClick={() => addToCart(product)}
+                          className={cart.some(item => item.id === product.id) ? 'added' : ''}
+                        >
+                          {cart.some(item => item.id === product.id) ? 'Added to Cart' : 'Add to Cart'}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </section>
 
           <section id="about" className="about-section">
             <h2>About Us</h2>
-            <p>At Perfect Imperfectness, we believe in celebrating your unique beauty. Our carefully curated skincare products are designed to enhance your natural glow while addressing your specific skin concerns.</p>
+            <p>At SkinCare Haven, we believe in celebrating your unique beauty. Our carefully curated skincare products are designed to enhance your natural glow while addressing your specific skin concerns.</p>
           </section>
 
           <section id="contact" className="contact-section">
@@ -108,7 +166,7 @@ function App() {
             <div className="contact-info">
               <div>
                 <h3>Email</h3>
-                <p>info@perfectimperfectness.com</p>
+                <p>info@skincarehaven.com</p>
               </div>
               <div>
                 <h3>Phone</h3>
@@ -133,9 +191,14 @@ function App() {
                   cart.map(item => (
                     <div key={item.id} className="cart-item">
                       <img src={item.image} alt={item.name} />
-                      <div>
+                      <div className="cart-item-details">
                         <h3>{item.name}</h3>
                         <p>{item.price}</p>
+                        <div className="quantity-controls">
+                          <button onClick={() => updateQuantity(item.id, -1)}>-</button>
+                          <span>{item.quantity}</span>
+                          <button onClick={() => updateQuantity(item.id, 1)}>+</button>
+                        </div>
                       </div>
                       <button onClick={() => removeFromCart(item.id)}>Remove</button>
                     </div>
@@ -194,7 +257,12 @@ function App() {
                   <img src={product.image} alt={product.name} />
                   <h3>{product.name}</h3>
                   <p>{product.price}</p>
-                  <button onClick={() => addToCart(product)}>Add to Cart</button>
+                  <button 
+                    onClick={() => addToCart(product)}
+                    className={cart.some(item => item.id === product.id) ? 'added' : ''}
+                  >
+                    {cart.some(item => item.id === product.id) ? 'Added to Cart' : 'Add to Cart'}
+                  </button>
                 </div>
               ))}
             </div>
