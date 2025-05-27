@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import { productsData } from './assets/data';
+import { productsData } from '../assets/data.js';
 import './css/styles.css';
 
 function App() {
@@ -88,7 +88,7 @@ function App() {
         <div className="success-content">
           <div className="success-icon">✓</div>
           <h1>Order Placed Successfully!</h1>
-          <p>Thank you for shopping with Perfect Imperfectness</p>
+          <p>Thank you for shopping with SkinCare Haven</p>
           <p>Your order will be delivered within 5-7 business days</p>
           <button onClick={() => {
             setShowSuccess(false);
@@ -105,7 +105,7 @@ function App() {
       <nav className="navbar">
         <div className="nav-brand">
           <img src="https://images.pexels.com/photos/3785147/pexels-photo-3785147.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Logo" className="nav-logo" />
-          Perfect Imperfectness
+          SkinCare Haven
         </div>
         <div className="nav-search">
           <input 
@@ -158,7 +158,7 @@ function App() {
 
           <section id="about" className="about-section">
             <h2>About Us</h2>
-            <p>At Perfect Imperfectness, we believe in celebrating your unique beauty. Our carefully curated skincare products are designed to enhance your natural glow while addressing your specific skin concerns.</p>
+            <p>At SkinCare Haven, we believe in celebrating your unique beauty. Our carefully curated skincare products are designed to enhance your natural glow while addressing your specific skin concerns.</p>
           </section>
 
           <section id="contact" className="contact-section">
@@ -166,7 +166,7 @@ function App() {
             <div className="contact-info">
               <div>
                 <h3>Email</h3>
-                <p>info@perfectimperfectness.com</p>
+                <p>info@skincarehaven.com</p>
               </div>
               <div>
                 <h3>Phone</h3>
