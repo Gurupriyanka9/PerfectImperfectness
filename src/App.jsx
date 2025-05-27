@@ -25,17 +25,33 @@ function App() {
 
   const addToCart = (product) => {
     setCart([...cart, product]);
-    toast.success('Added to cart!');
+    toast.success('Added to cart!', {
+      style: {
+        background: '#7a4fa0',
+        color: 'white',
+      },
+    });
   };
 
   const removeFromCart = (productId) => {
     setCart(cart.filter(item => item.id !== productId));
-    toast.success('Removed from cart!');
+    toast.success('Removed from cart!', {
+      style: {
+        background: '#7a4fa0',
+        color: 'white',
+      },
+    });
   };
 
   const handlePayment = (e) => {
     e.preventDefault();
-    toast.success('Payment successful! Thank you for shopping with us.');
+    toast.success('Payment successful! Thank you for shopping with us.', {
+      duration: 5000,
+      style: {
+        background: '#7a4fa0',
+        color: 'white',
+      },
+    });
     setCart([]);
     setShowPayment(false);
   };
@@ -49,41 +65,45 @@ function App() {
     <div>
       <Toaster position="top-right" />
       <header>
-        <img src="log.png" alt="Perfect Imperfectness Logo" style={{ width: '200px', height: 'auto', marginBottom: '20px' }} />
-        <h1>Perfect Imperfectness</h1>
-        <h3>Embrace Your Glow: Perfectly Imperfect, Authentically You</h3>
-        <input type="text" onChange={handleSearch} placeholder="Search for products..." />
-        <button 
-          onClick={() => setShowCart(true)}
-          style={{ 
-            marginLeft: '10px', 
-            padding: '10px 20px',
-            backgroundColor: '#7a4fa0',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer'
-          }}
-        >
-          Cart ({cart.length})
-        </button>
+        <div className="hero-section">
+          <h1>Perfect Imperfectness</h1>
+          <h3>Embrace Your Glow: Perfectly Imperfect, Authentically You</h3>
+          <p>Discover skincare solutions tailored to your unique beauty journey</p>
+          <div>
+            <input 
+              type="text" 
+              onChange={handleSearch} 
+              placeholder="Search for your perfect skincare solution..." 
+            />
+            <button 
+              className="cart-button"
+              onClick={() => setShowCart(true)}
+            >
+              Cart ({cart.length})
+            </button>
+          </div>
+        </div>
       </header>
 
       <main>
         {showCart && (
           <div className="cart-modal">
             <div className="cart-content">
-              <h2>Shopping Cart</h2>
-              {cart.map(item => (
-                <div key={item.id} className="cart-item">
-                  <img src={item.image} alt={item.name} />
-                  <div>
-                    <h3>{item.name}</h3>
-                    <p>{item.price}</p>
+              <h2 className="section-title">Your Shopping Cart</h2>
+              {cart.length === 0 ? (
+                <p style={{ textAlign: 'center', color: '#666' }}>Your cart is empty</p>
+              ) : (
+                cart.map(item => (
+                  <div key={item.id} className="cart-item">
+                    <img src={item.image} alt={item.name} />
+                    <div>
+                      <h3>{item.name}</h3>
+                      <p>{item.price}</p>
+                    </div>
+                    <button onClick={() => removeFromCart(item.id)}>Remove</button>
                   </div>
-                  <button onClick={() => removeFromCart(item.id)}>Remove</button>
-                </div>
-              ))}
+                ))
+              )}
               <div className="cart-total">
                 <h3>Total: Rs.{totalAmount}</h3>
                 <button onClick={() => {
@@ -94,7 +114,7 @@ function App() {
                     toast.error('Cart is empty!');
                   }
                 }}>Proceed to Payment</button>
-                <button onClick={() => setShowCart(false)}>Close</button>
+                <button onClick={() => setShowCart(false)}>Continue Shopping</button>
               </div>
             </div>
           </div>
@@ -103,7 +123,7 @@ function App() {
         {showPayment && (
           <div className="payment-modal">
             <div className="payment-content">
-              <h2>Payment Details</h2>
+              <h2 className="section-title">Payment Details</h2>
               <form onSubmit={handlePayment}>
                 <input type="text" placeholder="Card Number" required />
                 <input type="text" placeholder="Card Holder Name" required />
@@ -119,7 +139,7 @@ function App() {
         )}
 
         <section id="categories">
-          <h2>Categories</h2>
+          <h2 className="section-title">Shop by Category</h2>
           <div className="category-list">
             <button onClick={() => handleCategory('acne')}>Acne Care</button>
             <button onClick={() => handleCategory('pores')}>Pore Cleansing</button>
@@ -130,7 +150,7 @@ function App() {
         </section>
 
         <section id="products">
-          <h2>Products</h2>
+          <h2 className="section-title">Our Products</h2>
           <div className="product-list">
             {filteredProducts.map(product => (
               <div key={product.id} className="product-card">
